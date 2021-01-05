@@ -40,7 +40,15 @@ public class BootStrapData implements CommandLineRunner {
         authorRepository.save(author);
         bookRepository.save(book);
 
+        Book ddd = new Book("Domain Driven Design" , "987654321");
+        book.setPublisher(publisher);
 
+        publisher.getBooks().add(ddd);
+
+        bookRepository.save(book);
+        publisherRepository.save(publisher);
+
+        System.out.println("Books from publisher:" + publisher.getBooks().size());
 
     }
 }
