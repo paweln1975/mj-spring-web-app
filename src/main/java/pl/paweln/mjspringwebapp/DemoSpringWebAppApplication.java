@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import pl.paweln.mjspringwebapp.controllers.DIController;
+import pl.paweln.mjspringwebapp.controllers.I18nController;
+import pl.paweln.mjspringwebapp.controllers.exercises.PetController;
 
 @SpringBootApplication
 public class DemoSpringWebAppApplication {
@@ -15,10 +17,16 @@ public class DemoSpringWebAppApplication {
 //			System.out.println(s);
 //		}
 
+		I18nController i18nController = (I18nController) ctx.getBean("i18nController");
+		System.out.println(i18nController.sayHello());
 
-		DIController controller = (DIController) ctx.getBean("DIController");
+		DIController controller = (DIController) ctx.getBean("diController");
 		System.out.println(controller.sayHello());
 		System.out.println(controller.sayHelloWorld());
 		System.out.println(controller.sayHelloPrimary());
+
+		PetController petController = ctx.getBean("petController", PetController.class);
+		System.out.println("--- The Best Pet is ---");
+		System.out.println(petController.whichPetIsTheBest());
 	}
 }

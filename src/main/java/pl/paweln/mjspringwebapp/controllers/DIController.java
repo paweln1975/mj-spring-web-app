@@ -7,7 +7,7 @@ import pl.paweln.mjspringwebapp.services.GreetingService;
 import pl.paweln.mjspringwebapp.services.GreetingServiceImpl;
 import pl.paweln.mjspringwebapp.services.GreetingWorldServiceImpl;
 
-@Controller
+@Controller("diController")
 public class DIController {
 
     private final GreetingService greetingService;
