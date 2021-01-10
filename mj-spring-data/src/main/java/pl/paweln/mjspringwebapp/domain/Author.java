@@ -7,9 +7,10 @@ import java.util.Set;
 @Entity
 @Table(name = "author")
 public class Author {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column (name="id", nullable = false)
     private Long id;
 
     @Column(name = "first_name")
@@ -68,18 +69,18 @@ public class Author {
 
         Author author = (Author) o;
 
-        return id != null ? id.equals(author.id) : author.id == null;
+        return this.id != null ? this.id.equals(author.id) : author.id == null;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return this.id != null ? this.id.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "Author{" +
-                "id=" + id +
+                "id=" + this.id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", books=" + books +
