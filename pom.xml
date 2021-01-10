@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.paweln</groupId>
 	<artifactId>mj-spring-web-app</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 
 	<name>mj-spring-web-app</name>
 	<description>Simple Demo project for Spring Boot</description>
