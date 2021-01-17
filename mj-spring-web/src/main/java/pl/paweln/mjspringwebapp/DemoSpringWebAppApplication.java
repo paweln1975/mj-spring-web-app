@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import pl.paweln.mjspringwebapp.controllers.DIController;
 import pl.paweln.mjspringwebapp.controllers.I18nController;
 import pl.paweln.mjspringwebapp.controllers.exercises.PetController;
+import pl.paweln.mjspringwebapp.services.JokeService;
+import pl.paweln.mjspringwebapp.services.JokeServiceImpl;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"pl.paweln.mjspringwebapp"})
@@ -31,5 +33,8 @@ public class DemoSpringWebAppApplication {
 		PetController petController = ctx.getBean("petController", PetController.class);
 		System.out.println("--- The Best Pet is ---");
 		System.out.println(petController.whichPetIsTheBest());
+
+		JokeService jokeService = ctx.getBean("jokeServiceImpl", JokeServiceImpl.class);
+		System.out.println(jokeService.getJoke());
 	}
 }
