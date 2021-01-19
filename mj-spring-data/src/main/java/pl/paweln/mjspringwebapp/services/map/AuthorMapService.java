@@ -1,19 +1,29 @@
 package pl.paweln.mjspringwebapp.services.map;
 
+import org.springframework.stereotype.Service;
 import pl.paweln.mjspringwebapp.domain.Author;
-import pl.paweln.mjspringwebapp.services.CrudService;
+import pl.paweln.mjspringwebapp.services.AuthorService;
 
 import java.util.Set;
 
-public class AuthorMapService extends AbstractMapService<Author, Long> implements CrudService<Author, Long> {
+@Service
+public class AuthorMapService extends AbstractMapService<Author, Long> implements AuthorService {
     @Override
     public Author findById(Long id) {
         return super.findById(id);
     }
 
+    // better place to implement this is AbstractMapService but I dont not have BaseEntity class
     @Override
-    public Author save(Author object) {
-        return super.save(object.getId(), object);
+    public Author save(Author author) {
+        if (author != null) {
+            if (author.getId() == null) {
+                author.setId(super.getNextId());
+            }
+            return super.save(author.getId(), author);
+        } else {
+            throw new RuntimeException("Author is null");
+        }
     }
 
     @Override
@@ -29,5 +39,10 @@ public class AuthorMapService extends AbstractMapService<Author, Long> implement
     @Override
     public void delete(Author object) {
         super.delete(object);
+    }
+
+    @Override
+    public Author findByLastName(String lastName) {
+        return null;
     }
 }

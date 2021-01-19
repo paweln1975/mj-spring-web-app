@@ -9,6 +9,9 @@ import pl.paweln.mjspringwebapp.repositories.AuthorRepository;
 import pl.paweln.mjspringwebapp.repositories.BookRepository;
 import pl.paweln.mjspringwebapp.repositories.PublisherRepository;
 
+/*
+ Better place in web-project
+ */
 @Component
 public class BootStrapData implements CommandLineRunner {
     private final AuthorRepository authorRepository;

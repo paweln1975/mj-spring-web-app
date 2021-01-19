@@ -1,12 +1,9 @@
 package pl.paweln.mjspringwebapp.services.map;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public abstract class AbstractMapService<T, ID> {
-    Map<ID, T> map = new HashMap<>();
+public abstract class AbstractMapService<T, ID extends Long> {
+    Map<Long, T> map = new HashMap<>();
 
     Set<T> findAll() {
         return new HashSet<>(this.map.values());
@@ -27,5 +24,15 @@ public abstract class AbstractMapService<T, ID> {
 
     void delete(T object) {
         map.entrySet().removeIf(idtEntry -> idtEntry.getValue().equals(object));
+    }
+
+    protected Long getNextId() {
+        Long nextId = null;
+        try {
+            nextId = Collections.max(map.keySet()) + 1;
+        } catch (NoSuchElementException e) {
+            nextId = 1L;
+        }
+        return nextId;
     }
 }
