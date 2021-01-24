@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class JokeConfiguration {
     @Bean
-    @Profile("DE")
+    @Profile("de")
     public JokeServiceProvider getJokeService() {
         System.out.println("Using spring configuration class to provide JokeServiceProvider");
         return new JokeServiceProvider();
@@ -21,7 +21,7 @@ public class JokeConfiguration {
 
     @Bean
     @Primary
-    @Profile({"default", "EN"})
+    @Profile({"default", "en"})
     public JokeServiceProvider getJokeServicesPrimary(JokeServiceFactory jokeServiceFactory) {
         System.out.println("Using spring configuration class to provide JokeServiceFactory and JokeServiceProvider");
         return jokeServiceFactory.createJokeServiceProvider();
