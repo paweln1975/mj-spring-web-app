@@ -18,6 +18,7 @@ public class BootStrapData implements CommandLineRunner {
     private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
 
+
     public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
@@ -26,7 +27,10 @@ public class BootStrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        loadLibraryInitData();
+    }
 
+    private void loadLibraryInitData() {
         Publisher publisher = new Publisher("Helion", "London Street 1", "00-000", "London", "London Area" );
 
         Book book = new Book("Mastering Spring Boot", "12345667");
@@ -52,6 +56,5 @@ public class BootStrapData implements CommandLineRunner {
         publisherRepository.save(publisher);
 
         System.out.println("Books from publisher:" + publisher.getBooks().size());
-
     }
 }
