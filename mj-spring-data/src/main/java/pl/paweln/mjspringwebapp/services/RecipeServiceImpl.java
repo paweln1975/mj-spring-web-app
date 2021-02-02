@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+
 public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
 
@@ -17,8 +18,11 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Set<Recipe> getRecipes() {
+
         Set<Recipe> recipeSet = new HashSet<>();
         this.recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
+
+
         return recipeSet;
     }
 }

@@ -1,11 +1,18 @@
 package pl.paweln.mjspringwebapp.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "book")
+@Setter
+@Getter
+@NoArgsConstructor
 public class Book extends BaseEntity {
 
     @Column(name = "title")
@@ -23,47 +30,13 @@ public class Book extends BaseEntity {
     @JoinColumn(name="publisher_id")
     private Publisher publisher;
 
-    public Book() {
-    }
-
     public Book(String title, String isbn) {
         this.title = title;
         this.isbn = isbn;
     }
 
-    public Set<Author> getAuthors() {
-        return authors;
-    }
 
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Publisher getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
-    }
-
-        @Override
+    @Override
     public String toString() {
         return "Book{" +
                 "id=" + this.getId() +
