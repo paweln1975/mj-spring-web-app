@@ -1,8 +1,6 @@
 package pl.paweln.mjspringwebapp.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,6 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Author extends BaseEntity {
 
     @Column(name = "first_name")
@@ -24,7 +23,8 @@ public class Author extends BaseEntity {
     @ManyToMany (cascade = CascadeType.ALL, mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
 
-        public Author(String firstName, String lastName) {
+    @Builder
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

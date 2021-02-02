@@ -1,5 +1,6 @@
 package pl.paweln.mjspringwebapp.bootstrap;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.paweln.mjspringwebapp.domain.Author;
@@ -16,6 +17,7 @@ import java.util.List;
  Better place in web-project
  */
 @Component
+@Slf4j
 public class BootStrapData implements CommandLineRunner {
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
@@ -36,10 +38,8 @@ public class BootStrapData implements CommandLineRunner {
     private void loadLibraryInitData() {
         List<Author> authors = new LinkedList<>();
 
-        Author author = new Author("Martin", "Wallace");
-
-        authors.add(author);
-        authors.add(new Author("John", "Smith"));
+        authors.add(Author.builder().firstName("Martin").lastName("Wallace").build());
+        authors.add(Author.builder().firstName("Jon").lastName("Smith").build());
 
         Book book = new Book("Mastering Spring Boot", "12345667");
         authors.get(1).getBooks().add(book);
