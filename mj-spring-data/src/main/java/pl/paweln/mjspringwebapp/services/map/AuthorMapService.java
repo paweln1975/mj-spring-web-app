@@ -1,5 +1,6 @@
 package pl.paweln.mjspringwebapp.services.map;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import pl.paweln.mjspringwebapp.domain.Author;
 import pl.paweln.mjspringwebapp.services.AuthorService;
@@ -7,6 +8,7 @@ import pl.paweln.mjspringwebapp.services.AuthorService;
 import java.util.Set;
 
 @Service
+@Profile({"default", "map"})
 public class AuthorMapService extends AbstractMapService<Author, Long> implements AuthorService {
     @Override
     public Author findById(Long id) {

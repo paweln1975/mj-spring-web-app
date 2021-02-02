@@ -6,11 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "book")
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class Book extends BaseEntity {
 
     @Column(name = "title")
     private String title;
@@ -23,7 +19,7 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name="publisher_id")
     private Publisher publisher;
 
@@ -33,14 +29,6 @@ public class Book {
     public Book(String title, String isbn) {
         this.title = title;
         this.isbn = isbn;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Set<Author> getAuthors() {
@@ -75,25 +63,10 @@ public class Book {
         this.publisher = publisher;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Book book = (Book) o;
-
-        return id != null ? id.equals(book.id) : book.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    @Override
+        @Override
     public String toString() {
         return "Book{" +
-                "id=" + id +
+                "id=" + this.getId() +
                 ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", authors=" + authors +

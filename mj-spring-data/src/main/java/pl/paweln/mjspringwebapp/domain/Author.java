@@ -6,12 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "author")
-public class Author {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name="id", nullable = false)
-    private Long id;
+public class Author extends BaseEntity {
 
     @Column(name = "first_name")
     private String firstName;
@@ -19,7 +14,7 @@ public class Author {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany (mappedBy = "authors")
+    @ManyToMany (cascade = CascadeType.ALL, mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
 
     public Author() {
@@ -28,14 +23,6 @@ public class Author {
     public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -69,18 +56,18 @@ public class Author {
 
         Author author = (Author) o;
 
-        return this.id != null ? this.id.equals(author.id) : author.id == null;
+        return this.getId() != null ? this.getId().equals(author.getId()) : author.getId() == null;
     }
 
     @Override
     public int hashCode() {
-        return this.id != null ? this.id.hashCode() : 0;
+        return this.getId() != null ? this.getId().hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "Author{" +
-                "id=" + this.id +
+                "id=" + this.getId() +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", books=" + books +

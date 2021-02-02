@@ -9,6 +9,9 @@ import pl.paweln.mjspringwebapp.repositories.AuthorRepository;
 import pl.paweln.mjspringwebapp.repositories.BookRepository;
 import pl.paweln.mjspringwebapp.repositories.PublisherRepository;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /*
  Better place in web-project
  */
@@ -31,30 +34,18 @@ public class BootStrapData implements CommandLineRunner {
     }
 
     private void loadLibraryInitData() {
-        Publisher publisher = new Publisher("Helion", "London Street 1", "00-000", "London", "London Area" );
+        List<Author> authors = new LinkedList<>();
+
+        authors.add(new Author("Martin", "Wallace"));
+        authors.add(new Author("John", "Smith"));
 
         Book book = new Book("Mastering Spring Boot", "12345667");
+        authors.get(1).getBooks().add(book);
+        book.getAuthors().add(authors.get(1));
+
+        Publisher publisher = new Publisher("Helion", "London Street 1", "00-000", "London", "London Area" );
         book.setPublisher(publisher);
 
-        publisher.getBooks().add(book);
-
-        Author author = new Author("Martin", "Wallace");
-
-        book.getAuthors().add(author);
-        author.getBooks().add(book);
-
-        publisherRepository.save(publisher);
-        authorRepository.save(author);
-        bookRepository.save(book);
-
-        Book ddd = new Book("Domain Driven Design" , "987654321");
-        book.setPublisher(publisher);
-
-        publisher.getBooks().add(ddd);
-
-        bookRepository.save(book);
-        publisherRepository.save(publisher);
-
-        System.out.println("Books from publisher:" + publisher.getBooks().size());
+        authorRepository.saveAll(authors);
     }
 }
