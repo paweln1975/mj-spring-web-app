@@ -1,2 +1,0 @@
-2021-02-09 00:15:32.557 INFO [main] [pl.paweln.mjspringwebapp.controllers.RecipeController] [getRecipes] [pl.paweln.mjspringwebapp.controllers.RecipeController.getRecipes(RecipeController.java:26)] - Returning recipes: 0
-2021-02-09 00:19:52.035 INFO [main] [pl.paweln.mjspringwebapp.controllers.RecipeController] [getRecipes] [pl.paweln.mjspringwebapp.controllers.RecipeController.getRecipes(RecipeController.java:26)] - Returning recipes: 0

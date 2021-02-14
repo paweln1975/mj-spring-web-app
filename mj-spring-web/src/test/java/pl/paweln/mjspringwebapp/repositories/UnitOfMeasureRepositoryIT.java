@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class UnitOfMeasureRepositoryTest {
+public class UnitOfMeasureRepositoryIT {
 
     @Autowired
     UnitOfMeasureRepository repository;
