@@ -7,6 +7,7 @@ import pl.paweln.mjspringwebapp.repositories.AuthorRepository;
 import pl.paweln.mjspringwebapp.services.AuthorService;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -25,7 +26,12 @@ public class AuthorJPAService implements AuthorService {
 
     @Override
     public Author findById(Long id) {
-        return this.authorRepository.findById(id).get();
+        Optional<Author> optionalAuthor = this.authorRepository.findById(id);
+        if (optionalAuthor.isPresent()) {
+            return optionalAuthor.get();
+        } else {
+            return optionalAuthor.orElse(null);
+        }
     }
 
     @Override
