@@ -30,3 +30,6 @@ jobs:
 
       # run tests!
       - run: mvn verify
+      # store tests
+      - store_test_results:
+        path: test-results
