@@ -25,8 +25,14 @@ public class Author extends BaseEntity {
     @ManyToMany (cascade = CascadeType.ALL, mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
 
-    @Builder
     public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    @Builder
+    public Author(String firstName, String lastName, Long id) {
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
     }
