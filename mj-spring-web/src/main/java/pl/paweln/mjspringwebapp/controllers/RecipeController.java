@@ -30,4 +30,9 @@ public class RecipeController {
 
         return "recipes/list";
     }
+
+    @RequestMapping("recipes/find")
+    public String findRecipes() {
+        return "notImplemented";
+    }
 }

@@ -38,14 +38,22 @@ public class BootStrapData implements CommandLineRunner {
     private void loadLibraryInitData() {
         List<Author> authors = new LinkedList<>();
 
-        authors.add(Author.builder().firstName("Martin").lastName("Wallace").build());
-        authors.add(Author.builder().firstName("Jon").lastName("Smith").build());
+        Author author1 = Author.builder().firstName("Martin").lastName("Wallace").build();
+        author1.setId(1L);
+        authors.add(author1);
 
+        Author author2 = Author.builder().firstName("John").lastName("Smith").build();
+        author2.setId(2L);
+        authors.add(author2);
+
+        System.out.println(authors.size());
         Book book = new Book("Mastering Spring Boot", "12345667");
+        book.setId(1L);
         authors.get(1).getBooks().add(book);
         book.getAuthors().add(authors.get(1));
 
         Publisher publisher = new Publisher("Helion", "London Street 1", "00-000", "London", "London Area" );
+        publisher.setId(1L);
         book.setPublisher(publisher);
 
         authorRepository.saveAll(authors);
