@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import pl.paweln.mjspringwebapp.domain.Category;
+import pl.paweln.mjspringwebapp.domain.Ingredient;
 import pl.paweln.mjspringwebapp.domain.Recipe;
 import pl.paweln.mjspringwebapp.services.RecipeService;
 
@@ -41,9 +43,19 @@ public class RecipeControllerTest {
     public void setup() {
         Recipe recipe1 = new Recipe();
         recipe1.setId(1L);
+        recipe1.addIngredient(new Ingredient());
+        recipe1.addIngredient(new Ingredient());
+        recipe1.getCategorySet().add(new Category());
+        recipe1.getCategorySet().add(new Category());
+
 
         Recipe recipe2 = new Recipe();
         recipe2.setId(2L);
+        recipe2.addIngredient(new Ingredient());
+        recipe2.addIngredient(new Ingredient());
+        recipe2.getCategorySet().add(new Category());
+        recipe2.getCategorySet().add(new Category());
+
 
         recipeSet = new HashSet<>();
         recipeSet.add(recipe1);
@@ -99,6 +111,10 @@ public class RecipeControllerTest {
 
         mock.perform(MockMvcRequestBuilders.get("/recipe/show/1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("recipes/show"));
+                .andExpect(view().name("recipes/show"))
+                .andExpect(model().attribute("recipe", Matchers.any(Recipe.class)))
+                .andExpect(model().attribute("ingredients", Matchers.hasSize(2)))
+                .andExpect(model().attribute("categories", Matchers.hasSize(2)));
+
     }
 }

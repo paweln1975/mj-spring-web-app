@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.paweln.mjspringwebapp.domain.Category;
+import pl.paweln.mjspringwebapp.domain.Ingredient;
 import pl.paweln.mjspringwebapp.domain.Recipe;
 import pl.paweln.mjspringwebapp.services.RecipeService;
 
@@ -34,7 +36,15 @@ public class RecipeController {
 
     @RequestMapping("recipe/show/{id}")
     public String showById(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findById(Long.valueOf(id)));
+        Recipe recipe = recipeService.findById(Long.valueOf(id));
+        model.addAttribute("recipe", recipe);
+
+        Set<Ingredient> ingredients = recipe.getIngredientSet();
+        model.addAttribute("ingredients", ingredients);
+
+        Set<Category> categorySet = recipe.getCategorySet();
+        model.addAttribute("categories", categorySet);
+
 
         return "recipes/show";
     }
