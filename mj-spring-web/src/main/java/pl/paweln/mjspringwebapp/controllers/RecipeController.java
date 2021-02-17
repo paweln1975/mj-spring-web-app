@@ -3,6 +3,7 @@ package pl.paweln.mjspringwebapp.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.paweln.mjspringwebapp.domain.Recipe;
 import pl.paweln.mjspringwebapp.services.RecipeService;
@@ -29,6 +30,13 @@ public class RecipeController {
         model.addAttribute("recipes", recipes);
 
         return "recipes/list";
+    }
+
+    @RequestMapping("recipe/show/{id}")
+    public String showById(@PathVariable String id, Model model) {
+        model.addAttribute("recipe", recipeService.findById(Long.valueOf(id)));
+
+        return "recipes/show";
     }
 
     @RequestMapping("recipes/find")

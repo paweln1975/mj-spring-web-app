@@ -54,7 +54,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void testMVC() throws Exception {
+    public void mvcTest() throws Exception {
 
         when(this.recipeService.getRecipes()).thenReturn(recipeSet);
 
@@ -65,7 +65,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void testGetRecipes() {
+    public void getRecipesTest() {
 
         when(this.recipeService.getRecipes()).thenReturn(recipeSet);
 
@@ -84,11 +84,21 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void testFindRecipes() throws Exception {
+    public void findRecipesTest() throws Exception {
         mock.perform(MockMvcRequestBuilders.get("/recipes/find"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("notImplemented"));
 
         verifyNoInteractions(this.recipeService);
+    }
+
+    @Test
+    public void getRecipeTest() throws Exception {
+        when(this.recipeService.findById(anyLong()))
+                .thenReturn(this.recipeSet.iterator().next());
+
+        mock.perform(MockMvcRequestBuilders.get("/recipe/show/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipes/show"));
     }
 }

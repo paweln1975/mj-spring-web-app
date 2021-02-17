@@ -5,6 +5,7 @@ import pl.paweln.mjspringwebapp.domain.Recipe;
 import pl.paweln.mjspringwebapp.repositories.RecipeRepository;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -24,5 +25,16 @@ public class RecipeServiceImpl implements RecipeService {
 
 
         return recipeSet;
+    }
+
+    @Override
+    public Recipe findById(Long id) {
+        Optional<Recipe> recipeOptional = this.recipeRepository.findById(id);
+
+        if (!recipeOptional.isPresent()) {
+            throw new RuntimeException("Recipe not found");
+        }
+
+        return recipeOptional.get();
     }
 }

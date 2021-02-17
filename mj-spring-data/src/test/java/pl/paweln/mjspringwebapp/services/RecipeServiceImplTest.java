@@ -1,16 +1,19 @@
 package pl.paweln.mjspringwebapp.services;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import pl.paweln.mjspringwebapp.domain.Recipe;
 import pl.paweln.mjspringwebapp.repositories.RecipeRepository;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
 
 public class RecipeServiceImplTest {
     RecipeServiceImpl recipeService;
@@ -25,16 +28,31 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    public void testGetRecipes() {
+    public void getRecipeByIdTest() {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        when(this.recipeRepository.findById(anyLong()))
+                .thenReturn(Optional.of(recipe));
+
+        Recipe recipeReturned = this.recipeService.findById(1L);
+
+        assertNotNull(recipeReturned);
+        verify(this.recipeRepository, times(1)).findById(anyLong());
+        verify(this.recipeRepository, never()).findAll();
+    }
+
+    @Test
+    public void getRecipesTest() {
         Recipe recipe = new Recipe();
         Set<Recipe> recipesData = new HashSet<>();
         recipesData.add(recipe);
 
-        Mockito.when(this.recipeRepository.findAll()).thenReturn(recipesData);
+        when(this.recipeRepository.findAll()).thenReturn(recipesData);
         Set<Recipe> recipes = this.recipeService.getRecipes();
 
-        Assertions.assertEquals(1, recipes.size());
-        Mockito.verify(this.recipeRepository, Mockito.times(1)).findAll();
+        assertEquals(1, recipes.size());
+        verify(this.recipeRepository, times(1)).findAll();
 
     }
 }
