@@ -3,8 +3,11 @@ package pl.paweln.mjspringwebapp.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.paweln.mjspringwebapp.commands.RecipeCommand;
 import pl.paweln.mjspringwebapp.domain.Category;
 import pl.paweln.mjspringwebapp.domain.Ingredient;
 import pl.paweln.mjspringwebapp.domain.Recipe;
@@ -52,5 +55,18 @@ public class RecipeController {
     @RequestMapping("recipes/find")
     public String findRecipes() {
         return "notImplemented";
+    }
+
+    @RequestMapping("recipe/new")
+    public String newRecipe(Model model) {
+        model.addAttribute("recipe", new RecipeCommand());
+        return "recipes/form";
+    }
+
+    @PostMapping
+    @RequestMapping("recipe")
+    public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand command) {
+        RecipeCommand savedCommand = this.recipeService.saveRecipeCommand(command);
+        return "redirect:/recipe/show/" + savedCommand.getId();
     }
 }
