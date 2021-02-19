@@ -55,4 +55,16 @@ public class RecipeServiceImpl implements RecipeService {
         log.debug("Storing recipe:" + storeRecipe);
         return this.recipeToRecipeCommand.convert(storeRecipe);
     }
+
+    @Override
+    @Transactional
+    public RecipeCommand findCommandById(Long id) {
+        return this.recipeToRecipeCommand.convert(findById(id));
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        this.recipeRepository.deleteById(id);
+    }
 }

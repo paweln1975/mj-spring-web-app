@@ -19,21 +19,19 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Description</th>
-                                <th>Difficulty</th>
-                                <th>Directions</th>
-                                <th>Preparation time</th>
                                 <th>View</th>
-
+                                <th>Update</th>
+                                <th>Delete</th>
                             </tr>
                             </thead>
 
                             <tr th:each="recipe : ${recipes}">
                                 <td th:text="${recipe.id}">1</td>
                                 <td th:text="${recipe.description}">Description</td>
-                                <td th:text="${recipe.difficulty}">Difficulty</td>
-                                <td th:text="${recipe.directions}">Directions</td>
-                                <td th:text="${recipe.prepTime}">Prep Time</td>
-                                <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>
+
+                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
+                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Update</a></td>
+                                <td><a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
                             </tr>
                         </table>
                     </div>

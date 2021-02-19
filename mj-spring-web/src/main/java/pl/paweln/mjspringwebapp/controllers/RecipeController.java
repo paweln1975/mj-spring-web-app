@@ -3,10 +3,7 @@ package pl.paweln.mjspringwebapp.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.paweln.mjspringwebapp.commands.RecipeCommand;
 import pl.paweln.mjspringwebapp.domain.Category;
 import pl.paweln.mjspringwebapp.domain.Ingredient;
@@ -25,6 +22,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+    @GetMapping
     @RequestMapping("/recipes")
     public String getRecipes(Model model) {
         Set<Recipe> recipes = this.recipeService.getRecipes();
@@ -37,7 +35,8 @@ public class RecipeController {
         return "recipes/list";
     }
 
-    @RequestMapping("recipe/show/{id}")
+    @GetMapping
+    @RequestMapping("recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
         Recipe recipe = recipeService.findById(Long.valueOf(id));
         model.addAttribute("recipe", recipe);
@@ -52,11 +51,29 @@ public class RecipeController {
         return "recipes/show";
     }
 
+    @GetMapping
+    @RequestMapping("recipe/{id}/update")
+    public String updateRecipe(@PathVariable String id, Model model) {
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(id));
+        model.addAttribute("recipe", recipeCommand);
+
+        return "recipes/form";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{id}/delete")
+    public String deleteRecipe(@PathVariable String id, Model model) {
+        recipeService.deleteById(Long.valueOf(id));
+
+        return "redirect:/recipes";
+    }
+
     @RequestMapping("recipes/find")
     public String findRecipes() {
         return "notImplemented";
     }
 
+    @GetMapping
     @RequestMapping("recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
@@ -67,6 +84,6 @@ public class RecipeController {
     @RequestMapping("recipe")
     public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand command) {
         RecipeCommand savedCommand = this.recipeService.saveRecipeCommand(command);
-        return "redirect:/recipe/show/" + savedCommand.getId();
+        return "redirect:/recipe/" + savedCommand.getId() + "/show";
     }
 }

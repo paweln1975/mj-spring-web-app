@@ -14,7 +14,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-9 form-group">
                                     <label>Recipe Description:</label>
                                     <textarea rows="3" class="form-control" th:field="*{description}"/>
                                 </div>
@@ -73,7 +73,7 @@
                                         <li th:remove="all">1 Teaspoon of chocolate</li>
                                         <li th:each="ingredient : ${recipe.ingredientSet}"
                                             th:text="${(ingredient.getAmount() +
-                                        ' ' + ingredient.unitOfMeasure.getUnitName() +
+                                        ' ' + ingredient.unitOfMeasureCommand.getUnitName() +
                                         ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar
                                         </li>
                                     </ul>
