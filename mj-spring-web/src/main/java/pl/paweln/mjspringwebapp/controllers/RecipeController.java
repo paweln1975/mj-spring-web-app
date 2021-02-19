@@ -26,11 +26,11 @@ public class RecipeController {
     @RequestMapping("/recipes")
     public String getRecipes(Model model) {
         Set<Recipe> recipes = this.recipeService.getRecipes();
+        model.addAttribute("recipes", recipes);
+
         if (log.isInfoEnabled()) {
             log.info("Returning recipes: " + recipes.size());
         }
-
-        model.addAttribute("recipes", recipes);
 
         return "recipes/list";
     }
@@ -47,7 +47,9 @@ public class RecipeController {
         Set<Category> categorySet = recipe.getCategorySet();
         model.addAttribute("categories", categorySet);
 
-
+        if (log.isInfoEnabled()) {
+            log.info("Returning recipe: " + recipe);
+        }
         return "recipes/show";
     }
 
@@ -57,6 +59,9 @@ public class RecipeController {
         RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(id));
         model.addAttribute("recipe", recipeCommand);
 
+        if (log.isInfoEnabled()) {
+            log.info("Returning recipe: " + id);
+        }
         return "recipes/form";
     }
 
@@ -64,6 +69,10 @@ public class RecipeController {
     @RequestMapping("recipe/{id}/delete")
     public String deleteRecipe(@PathVariable String id, Model model) {
         recipeService.deleteById(Long.valueOf(id));
+
+        if (log.isInfoEnabled()) {
+            log.info("Deleted recipe: " + id);
+        }
 
         return "redirect:/recipes";
     }
@@ -77,6 +86,11 @@ public class RecipeController {
     @RequestMapping("recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
+
+        if (log.isInfoEnabled()) {
+            log.info("Returning empty RecipeCommand.");
+        }
+
         return "recipes/form";
     }
 
@@ -84,6 +98,10 @@ public class RecipeController {
     @RequestMapping("recipe")
     public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand command) {
         RecipeCommand savedCommand = this.recipeService.saveRecipeCommand(command);
+
+        if (log.isInfoEnabled()) {
+            log.info("Saved recipe: " + savedCommand.getId());
+        }
         return "redirect:/recipe/" + savedCommand.getId() + "/show";
     }
 }

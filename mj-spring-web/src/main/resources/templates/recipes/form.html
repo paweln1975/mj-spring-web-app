@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'recipes')}">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/general.html :: headerfiles">
+</th:block>
 <body>
+<div th:replace="fragments/general.html :: menu ('item' = new)"> </div>
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
             <form th:object="${recipe}" th:action="@{/recipe/}"  method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="panel-group">
@@ -14,7 +16,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-9 form-group">
+                                <div class="col-md-12 form-group">
                                     <label>Recipe Description:</label>
                                     <textarea rows="3" class="form-control" th:field="*{description}"/>
                                 </div>
@@ -23,7 +25,7 @@
                                 <div class="col-md-3 form-group">
                                     <label>Categories:</label>
                                 </div>
-                                <div class="col-md-9 form-group">
+                                <div class="col-md-11 form-group">
                                     <div class="radio">
                                         <label>
                                             <input type="checkbox" value=""/>
