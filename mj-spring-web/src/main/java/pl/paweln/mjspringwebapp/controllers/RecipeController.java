@@ -22,8 +22,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping
-    @RequestMapping("/recipes")
+    @GetMapping("/recipes")
     public String getRecipes(Model model) {
         Set<Recipe> recipes = this.recipeService.getRecipes();
         model.addAttribute("recipes", recipes);
@@ -35,10 +34,9 @@ public class RecipeController {
         return "recipes/list";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{id}/show")
-    public String showById(@PathVariable String id, Model model) {
-        Recipe recipe = recipeService.findById(Long.valueOf(id));
+    @GetMapping("/recipe/{recipeId}/show")
+    public String showById(@PathVariable String recipeId, Model model) {
+        Recipe recipe = recipeService.findById(Long.valueOf(recipeId));
         model.addAttribute("recipe", recipe);
 
         Set<Ingredient> ingredients = recipe.getIngredientSet();
@@ -53,37 +51,34 @@ public class RecipeController {
         return "recipes/show";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{id}/update")
-    public String updateRecipe(@PathVariable String id, Model model) {
-        RecipeCommand recipeCommand = recipeService.findRecipeCommandById(Long.valueOf(id));
+    @GetMapping("/recipe/{recipeId}/update")
+    public String updateRecipe(@PathVariable String recipeId, Model model) {
+        RecipeCommand recipeCommand = recipeService.findRecipeCommandById(Long.valueOf(recipeId));
         model.addAttribute("recipe", recipeCommand);
 
         if (log.isInfoEnabled()) {
-            log.info("Returning recipe: " + id);
+            log.info("Returning recipe: " + recipeId);
         }
         return "recipes/form";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{id}/delete")
-    public String deleteRecipe(@PathVariable String id, Model model) {
-        recipeService.deleteById(Long.valueOf(id));
+    @GetMapping("/recipe/{recipeId}/delete")
+    public String deleteRecipe(@PathVariable String recipeId, Model model) {
+        recipeService.deleteById(Long.valueOf(recipeId));
 
         if (log.isInfoEnabled()) {
-            log.info("Deleted recipe: " + id);
+            log.info("Deleted recipe: " + recipeId);
         }
 
         return "redirect:/recipes";
     }
 
-    @RequestMapping("recipes/find")
+    @GetMapping("/recipes/find")
     public String findRecipes() {
         return "notImplemented";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/new")
+    @GetMapping("recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
 
@@ -95,7 +90,7 @@ public class RecipeController {
     }
 
     @PostMapping
-    @RequestMapping("recipe")
+    @RequestMapping("/recipe")
     public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand command) {
         RecipeCommand savedCommand = this.recipeService.saveRecipeCommand(command);
 
