@@ -68,7 +68,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void mvcTest() throws Exception {
+    public void testMVC() throws Exception {
 
         when(this.recipeService.getRecipes()).thenReturn(recipeSet);
 
@@ -79,7 +79,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void getRecipesTest() {
+    public void testGetRecipes() {
 
         when(this.recipeService.getRecipes()).thenReturn(recipeSet);
 
@@ -98,7 +98,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void findRecipesTest() throws Exception {
+    public void testFindRecipes() throws Exception {
         mock.perform(MockMvcRequestBuilders.get("/recipes/find"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("notImplemented"));
@@ -107,7 +107,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void getRecipeTest() throws Exception {
+    public void testShowRecipe() throws Exception {
         when(this.recipeService.findById(anyLong()))
                 .thenReturn(this.recipeSet.iterator().next());
 
@@ -121,7 +121,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void getNewRecipeFormTest() throws Exception {
+    public void testGetNewRecipeForm() throws Exception {
         RecipeCommand command = new RecipeCommand();
 
         mock.perform(MockMvcRequestBuilders.get("/recipe/new"))
@@ -131,7 +131,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void postNewRecipeFormTest() throws Exception {
+    public void testPostNewRecipeForm() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(2L);
 
@@ -146,11 +146,11 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void getUpdateViewTest() throws Exception {
+    public void testGetUpdateView() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(2L);
 
-        when(this.recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+        when(this.recipeService.findRecipeCommandById(anyLong())).thenReturn(recipeCommand);
 
         mock.perform(MockMvcRequestBuilders.get("/recipe/2/update"))
                 .andExpect(status().isOk())
@@ -160,7 +160,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void deleteTest() throws Exception {
+    public void testDeleteRecipe() throws Exception {
         mock.perform(MockMvcRequestBuilders.get("/recipe/1/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipes"));

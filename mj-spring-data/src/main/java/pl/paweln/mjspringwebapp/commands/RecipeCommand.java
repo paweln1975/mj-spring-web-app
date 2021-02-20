@@ -3,6 +3,7 @@ package pl.paweln.mjspringwebapp.commands;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import pl.paweln.mjspringwebapp.domain.Difficulty;
 
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
+@ToString
 public class RecipeCommand {
     private Long id;
     private String description;

@@ -26,7 +26,7 @@ public class IndexControllerTest {
 
     }
     @Test
-    public void mvcTest() throws Exception {
+    public void testMVC() throws Exception {
         mock.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));

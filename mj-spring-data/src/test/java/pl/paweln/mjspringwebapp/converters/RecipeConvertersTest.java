@@ -10,7 +10,7 @@ import pl.paweln.mjspringwebapp.domain.Recipe;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RecipeConverterTest {
+public class RecipeConvertersTest {
     RecipeCommandToRecipe recipeCommandToRecipeConverter;
     RecipeToRecipeCommand recipeToRecipeCommandConverter;
 
@@ -36,13 +36,13 @@ public class RecipeConverterTest {
     }
 
     @Test
-    public void nullParameterTest() {
+    public void testNullParameter() {
         assertNull(this.recipeCommandToRecipeConverter.convert(null));
         assertNull(this.recipeToRecipeCommandConverter.convert(null));
     }
 
     @Test
-    public void notNullParameterTest() {
+    public void testNotNullParameter() {
         RecipeCommand command = new RecipeCommand();
         command.setNotesCommand(new NotesCommand());
         assertNotNull(this.recipeCommandToRecipeConverter.convert(command));
@@ -52,7 +52,7 @@ public class RecipeConverterTest {
     }
 
     @Test
-    public void convertToRecipeTest() {
+    public void testConvertToRecipe() {
         RecipeCommand command = new RecipeCommand();
         command.setId(this.lvalue);
         command.setDescription(this.description);
@@ -71,7 +71,7 @@ public class RecipeConverterTest {
     }
 
     @Test
-    public void convertToRecipeCommandTest() {
+    public void testConvertToRecipeCommand() {
         Recipe recipe = new Recipe();
         recipe.setId(lvalue);
         recipe.setDescription(this.description);
