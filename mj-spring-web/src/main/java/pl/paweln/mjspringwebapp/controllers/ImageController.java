@@ -50,17 +50,18 @@ public class ImageController {
     public void renderImage (@PathVariable String recipeId, HttpServletResponse response) throws IOException {
         RecipeCommand recipeCommand = this.recipeService.findRecipeCommandById(Long.valueOf(recipeId));
 
-        byte[] byteArr = new byte[recipeCommand.getImage().length];
-        int i = 0;
+        if (recipeCommand.getImage() != null) {
+            byte[] byteArr = new byte[recipeCommand.getImage().length];
+            int i = 0;
 
-        for (Byte b : recipeCommand.getImage()) {
-            byteArr[i++] = b;
+            for (Byte b : recipeCommand.getImage()) {
+                byteArr[i++] = b;
+            }
+
+            response.setContentType("image/jpeg");
+            InputStream is = new ByteArrayInputStream(byteArr);
+            IOUtils.copy(is, response.getOutputStream());
         }
-
-        response.setContentType("image/jpeg");
-        InputStream is = new ByteArrayInputStream(byteArr);
-        IOUtils.copy(is, response.getOutputStream());
-
     }
     
 }

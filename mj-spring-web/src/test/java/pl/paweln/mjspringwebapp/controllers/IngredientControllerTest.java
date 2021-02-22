@@ -1,5 +1,6 @@
 package pl.paweln.mjspringwebapp.controllers;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -69,6 +70,21 @@ public class IngredientControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipes/ingredients/show"))
                 .andExpect(model().attributeExists("ingredient"));
+
+    }
+
+    @Test
+    public void testShowIngredientModelAndView() throws Exception {
+        IngredientCommand command = new IngredientCommand();
+        command.setId(1L);
+
+        when(this.ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong())).thenReturn(command);
+
+        mock.perform(MockMvcRequestBuilders.get("/recipe/1/ingredient/1/showmav"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipes/ingredients/show"))
+                .andExpect(model().attributeExists("ingredient"))
+                .andExpect(model().attribute("ingredient", Matchers.hasProperty("id", Matchers.is(1L))));
 
     }
 

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.paweln.mjspringwebapp.commands.IngredientCommand;
 import pl.paweln.mjspringwebapp.commands.RecipeCommand;
 import pl.paweln.mjspringwebapp.commands.UnitOfMeasureCommand;
@@ -49,6 +50,22 @@ public class IngredientController {
         }
 
         return "recipes/ingredients/show";
+    }
+
+    // alternative way of returning the model
+    @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/showmav")
+    public ModelAndView showIngredientModelAndView(@PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
+        IngredientCommand ingredientCommand = this.ingredientService.findByRecipeIdAndIngredientId(
+                Long.valueOf(recipeId), Long.valueOf(ingredientId));
+
+        ModelAndView modelAndView = new ModelAndView("recipes/ingredients/show");
+        modelAndView.addObject("ingredient", ingredientCommand);
+
+        if (log.isInfoEnabled()) {
+            log.info("Returning ingredient: " + ingredientCommand);
+        }
+
+        return modelAndView;
     }
 
     @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
