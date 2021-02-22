@@ -45,6 +45,8 @@ public class IngredientController {
                 Long.valueOf(recipeId), Long.valueOf(ingredientId));
 
         model.addAttribute("ingredient", ingredientCommand);
+        model.addAttribute("recipe", new RecipeCommand());
+
         if (log.isInfoEnabled()) {
             log.info("Returning ingredient: " + ingredientCommand);
         }
@@ -108,6 +110,7 @@ public class IngredientController {
 
         model.addAttribute("ingredient", ingredientCommand);
         model.addAttribute("uomList", this.uomService.getUnitsOfMeasure());
+        model.addAttribute("recipe", new RecipeCommand());
 
         return "/recipes/ingredients/form";
     }

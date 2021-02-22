@@ -10,6 +10,7 @@ import pl.paweln.mjspringwebapp.domain.Recipe;
 import pl.paweln.mjspringwebapp.repositories.RecipeRepository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -61,6 +62,14 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeCommand findRecipeCommandById(Long id) {
         return this.recipeToRecipeCommand.convert(findById(id));
     }
+
+    @Override
+    @Transactional
+    public List<Recipe> findAllByDescriptionLike(String description) {
+        return this.recipeRepository.findAllByDescriptionLike(description);
+    }
+
+
 
 
     @Override

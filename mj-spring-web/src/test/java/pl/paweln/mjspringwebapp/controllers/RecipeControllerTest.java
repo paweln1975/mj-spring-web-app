@@ -20,6 +20,7 @@ import pl.paweln.mjspringwebapp.domain.Recipe;
 import pl.paweln.mjspringwebapp.services.RecipeService;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -98,15 +99,6 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void testFindRecipes() throws Exception {
-        mock.perform(MockMvcRequestBuilders.get("/recipes/find"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("notImplemented"));
-
-        verifyNoInteractions(this.recipeService);
-    }
-
-    @Test
     public void testShowRecipe() throws Exception {
         when(this.recipeService.findById(anyLong()))
                 .thenReturn(this.recipeSet.iterator().next());
@@ -166,5 +158,38 @@ public class RecipeControllerTest {
                 .andExpect(view().name("redirect:/recipes"));
 
         verify(this.recipeService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    public void testFindRecipeReturnOne() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        when(this.recipeService.findAllByDescriptionLike(anyString())).thenReturn(List.of(recipe));
+
+        mock.perform(MockMvcRequestBuilders.get("/recipes/find"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/recipe/1/show"));
+
+        verify(this.recipeService, times(1)).findAllByDescriptionLike(anyString());
+    }
+
+    @Test
+    public void testFindRecipeReturnMany() throws Exception {
+        Recipe recipe1 = new Recipe();
+        recipe1.setId(1L);
+
+        Recipe recipe2 = new Recipe();
+        recipe2.setId(2L);
+
+
+
+        when(this.recipeService.findAllByDescriptionLike(anyString())).thenReturn(List.of(recipe1, recipe2));
+
+        mock.perform(MockMvcRequestBuilders.get("/recipes/find"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipes/list"));
+
+        verify(this.recipeService, times(1)).findAllByDescriptionLike(anyString());
     }
 }
