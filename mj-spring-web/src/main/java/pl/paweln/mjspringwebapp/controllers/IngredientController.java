@@ -76,8 +76,11 @@ public class IngredientController {
         IngredientCommand command = this.ingredientService
                 .findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(ingredientId));
 
+        RecipeCommand commandRecipe = new RecipeCommand();
+
         model.addAttribute("ingredient", command);
         model.addAttribute("uomList", this.uomService.getUnitsOfMeasure());
+        model.addAttribute("recipe", commandRecipe);
 
         return "recipes/ingredients/form";
     }

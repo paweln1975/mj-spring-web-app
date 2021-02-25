@@ -93,7 +93,7 @@ public class RecipeController {
                 new CategoryToCategoryCommand(), new IngredientToIngredientCommand(new UoMToUoMCommand()), new NotesToNotesCommand()
         );
 
-        List<Recipe> allByDescriptionLike = this.recipeService.findAllByDescriptionLike(command.getDescription());
+        List<Recipe> allByDescriptionLike = this.recipeService.findAllByDescriptionLike("%" + command.getDescription() + "%");
 
         List<RecipeCommand> recipeCommands = allByDescriptionLike.stream().map(recipe -> recipeToRecipeCommand.convert(recipe)).collect(Collectors.toList());
 
@@ -102,7 +102,7 @@ public class RecipeController {
             model.addAttribute("recipe", new RecipeCommand());
             return "index";
         } else if (recipeCommands.size() == 1) {
-                return "redirect:/recipe/" + recipeCommands.get(0).getId() +"/show";
+            return "redirect:/recipe/" + recipeCommands.get(0).getId() +"/show";
         } else {
             model.addAttribute("recipes", recipeCommands);
             model.addAttribute("recipe", new RecipeCommand());
