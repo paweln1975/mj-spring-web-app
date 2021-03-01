@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="fragments/general.html :: headerfiles">
+</th:block>
+
+<body>
+<div th:replace="fragments/general.html :: menu ('item' = none)"> </div>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1 th:text="${'Error occurred: ' + exception.getClass().getSimpleName()}">Error message</h1>
+            <p th:text="${exception.getMessage()}">Detailed information</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,17 +1,21 @@
 package pl.paweln.mjspringwebapp.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.paweln.mjspringwebapp.commands.RecipeCommand;
 import pl.paweln.mjspringwebapp.converters.*;
 import pl.paweln.mjspringwebapp.domain.Category;
 import pl.paweln.mjspringwebapp.domain.Ingredient;
 import pl.paweln.mjspringwebapp.domain.Recipe;
+import pl.paweln.mjspringwebapp.exceptions.NotFoundException;
 import pl.paweln.mjspringwebapp.services.RecipeService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 @Controller
 @Slf4j
 public class RecipeController {
+    public static final String DEFAULT_ERROR_VIEW = "error";
 
     private final RecipeService recipeService;
 
@@ -26,15 +31,15 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+    @ModelAttribute
+    public void populateEmptyRecipe(Model model) {
+        model.addAttribute("recipe", new RecipeCommand());
+    }
+
     @GetMapping("/recipes")
     public String getRecipes(Model model) {
         Set<Recipe> recipes = this.recipeService.getRecipes();
-
-        RecipeCommand command = new RecipeCommand();
-
         model.addAttribute("recipes", recipes);
-        model.addAttribute("recipe", command);
-
         if (log.isInfoEnabled()) {
             log.info("Returning recipes: " + recipes.size());
         }
@@ -99,20 +104,17 @@ public class RecipeController {
 
         if (recipeCommands.isEmpty()) {
             result.rejectValue("description", "not found");
-            model.addAttribute("recipe", new RecipeCommand());
             return "index";
         } else if (recipeCommands.size() == 1) {
             return "redirect:/recipe/" + recipeCommands.get(0).getId() +"/show";
         } else {
             model.addAttribute("recipes", recipeCommands);
-            model.addAttribute("recipe", new RecipeCommand());
             return "recipes/list";
         }
     }
 
     @GetMapping("recipe/new")
     public String newRecipe(Model model) {
-        model.addAttribute("recipe", new RecipeCommand());
 
         if (log.isInfoEnabled()) {
             log.info("Returning empty RecipeCommand.");
@@ -131,4 +133,38 @@ public class RecipeController {
         }
         return "redirect:/recipe/" + savedCommand.getId() + "/show";
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFoundException (HttpServletResponse response, Exception ex) {
+        if (log.isErrorEnabled()) {
+            log.error("Error occurred. Text message=" + ex.getMessage());
+            log.error("Http response=" + response.getStatus());
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(DEFAULT_ERROR_VIEW);
+        modelAndView.getModelMap().addAttribute("recipe", new RecipeCommand());
+        modelAndView.getModelMap().addAttribute("exception", ex);
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNumberFormatException(HttpServletResponse response, Exception ex) {
+
+        if (log.isErrorEnabled()) {
+            log.error("Error occurred. Text message=" + ex.getMessage());
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(DEFAULT_ERROR_VIEW);
+        modelAndView.getModelMap().addAttribute("recipe", new RecipeCommand());
+        modelAndView.getModelMap().addAttribute("exception", ex);
+
+
+        return modelAndView;
+    }
+
+
 }

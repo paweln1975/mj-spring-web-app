@@ -7,6 +7,7 @@ import pl.paweln.mjspringwebapp.commands.RecipeCommand;
 import pl.paweln.mjspringwebapp.converters.RecipeCommandToRecipe;
 import pl.paweln.mjspringwebapp.converters.RecipeToRecipeCommand;
 import pl.paweln.mjspringwebapp.domain.Recipe;
+import pl.paweln.mjspringwebapp.exceptions.NotFoundException;
 import pl.paweln.mjspringwebapp.repositories.RecipeRepository;
 
 import java.util.HashSet;
@@ -42,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeOptional = this.recipeRepository.findById(id);
 
         if (!recipeOptional.isPresent()) {
-            throw new RuntimeException("Recipe not found");
+            throw new NotFoundException("Recipe not found. Recipe with id=" + id + " does not exist.");
         }
 
         return recipeOptional.get();
@@ -77,4 +78,6 @@ public class RecipeServiceImpl implements RecipeService {
     public void deleteById(Long id) {
         this.recipeRepository.deleteById(id);
     }
+
+
 }

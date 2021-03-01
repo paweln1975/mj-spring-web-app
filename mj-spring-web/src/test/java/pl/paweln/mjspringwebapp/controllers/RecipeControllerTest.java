@@ -17,6 +17,7 @@ import pl.paweln.mjspringwebapp.commands.RecipeCommand;
 import pl.paweln.mjspringwebapp.domain.Category;
 import pl.paweln.mjspringwebapp.domain.Ingredient;
 import pl.paweln.mjspringwebapp.domain.Recipe;
+import pl.paweln.mjspringwebapp.exceptions.NotFoundException;
 import pl.paweln.mjspringwebapp.services.RecipeService;
 
 import java.util.HashSet;
@@ -191,5 +192,25 @@ public class RecipeControllerTest {
                 .andExpect(view().name("recipes/list"));
 
         verify(this.recipeService, times(1)).findAllByDescriptionLike(anyString());
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        when (this.recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mock.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name(RecipeController.DEFAULT_ERROR_VIEW));
+    }
+
+    @Test
+    public void testGetRecipeNumberFormat() throws Exception {
+
+        mock.perform(MockMvcRequestBuilders.get("/recipe/a/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name(RecipeController.DEFAULT_ERROR_VIEW));
     }
 }
