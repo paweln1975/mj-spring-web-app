@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import pl.paweln.mjspringwebapp.commands.RecipeCommand;
+import pl.paweln.mjspringwebapp.controllers.exceptions.ControllerExceptionHandler;
 import pl.paweln.mjspringwebapp.domain.Category;
 import pl.paweln.mjspringwebapp.domain.Ingredient;
 import pl.paweln.mjspringwebapp.domain.Recipe;
@@ -65,7 +66,9 @@ public class RecipeControllerTest {
         recipeSet.add(recipe1);
         recipeSet.add(recipe2);
 
-        mock = MockMvcBuilders.standaloneSetup(this.recipeController).build();
+        mock = MockMvcBuilders.standaloneSetup(this.recipeController)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
 
     }
 
@@ -131,11 +134,29 @@ public class RecipeControllerTest {
         when(this.recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
 
         mock.perform(MockMvcRequestBuilders.post("/recipe")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("id", "")
-                .param("description", "some string"))
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                    .param("id", "")
+                    .param("description", "some string")
+                    .param("directions", "test directions"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
+    }
+
+    @Test
+    public void testPostNewRecipeFormValidationFail() throws Exception {
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(2L);
+
+        when(recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
+
+        mock.perform(MockMvcRequestBuilders.post("/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("recipe"))
+                .andExpect(view().name("recipes/form"));
     }
 
     @Test
@@ -203,7 +224,7 @@ public class RecipeControllerTest {
 
         mock.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
                 .andExpect(status().isNotFound())
-                .andExpect(view().name(RecipeController.DEFAULT_ERROR_VIEW));
+                .andExpect(view().name(ControllerExceptionHandler.DEFAULT_ERROR_VIEW));
     }
 
     @Test
@@ -211,6 +232,6 @@ public class RecipeControllerTest {
 
         mock.perform(MockMvcRequestBuilders.get("/recipe/a/show"))
                 .andExpect(status().isBadRequest())
-                .andExpect(view().name(RecipeController.DEFAULT_ERROR_VIEW));
+                .andExpect(view().name(ControllerExceptionHandler.DEFAULT_ERROR_VIEW));
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.paweln.mjspringwebapp.commands.RecipeCommand;
+import pl.paweln.mjspringwebapp.controllers.exceptions.ControllerExceptionHandler;
 import pl.paweln.mjspringwebapp.services.ImageService;
 import pl.paweln.mjspringwebapp.services.RecipeService;
 
@@ -34,7 +35,9 @@ public class ImageControllerTest {
 
     @BeforeEach
     public void setup() {
-        mock = MockMvcBuilders.standaloneSetup(this.imageController).build();
+        mock = MockMvcBuilders.standaloneSetup(this.imageController)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -86,5 +89,13 @@ public class ImageControllerTest {
 
         byte[] responseBytes = response.getContentAsByteArray();
         assertEquals(bytes.length, responseBytes.length);
+    }
+
+    @Test
+    public void testGetRecipeImageNumberFormat() throws Exception {
+
+        mock.perform(MockMvcRequestBuilders.get("/recipe/a/image"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name(ControllerExceptionHandler.DEFAULT_ERROR_VIEW));
     }
 }

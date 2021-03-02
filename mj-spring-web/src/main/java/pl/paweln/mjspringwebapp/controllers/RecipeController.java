@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.paweln.mjspringwebapp.commands.RecipeCommand;
+import pl.paweln.mjspringwebapp.controllers.exceptions.ControllerExceptionHandler;
 import pl.paweln.mjspringwebapp.converters.*;
 import pl.paweln.mjspringwebapp.domain.Category;
 import pl.paweln.mjspringwebapp.domain.Ingredient;
@@ -16,6 +17,7 @@ import pl.paweln.mjspringwebapp.exceptions.NotFoundException;
 import pl.paweln.mjspringwebapp.services.RecipeService;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,7 +25,8 @@ import java.util.stream.Collectors;
 @Controller
 @Slf4j
 public class RecipeController {
-    public static final String DEFAULT_ERROR_VIEW = "error";
+
+    private static final String RECIPE_FORM_URL = "recipes/form";
 
     private final RecipeService recipeService;
 
@@ -72,7 +75,7 @@ public class RecipeController {
         if (log.isInfoEnabled()) {
             log.info("Returning recipe: " + recipeId);
         }
-        return "recipes/form";
+        return RECIPE_FORM_URL;
     }
 
     @GetMapping("/recipe/{recipeId}/delete")
@@ -120,14 +123,21 @@ public class RecipeController {
             log.info("Returning empty RecipeCommand.");
         }
 
-        return "recipes/form";
+        return RECIPE_FORM_URL;
     }
 
-    @PostMapping
-    @RequestMapping("/recipe")
-    public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand command) {
+    @PostMapping("/recipe")
+    public String saveOrUpdateRecipe(@Valid @ModelAttribute("recipe") RecipeCommand command,
+                                     BindingResult bindingResult) {
         RecipeCommand savedCommand = this.recipeService.saveRecipeCommand(command);
 
+        if (bindingResult.hasErrors() && log.isErrorEnabled()) {
+            bindingResult.getAllErrors().forEach( objectError -> {
+                log.error(objectError.toString());
+            });
+
+            return RECIPE_FORM_URL;
+        }
         if (log.isInfoEnabled()) {
             log.info("Saved recipe: " + savedCommand.getId());
         }
@@ -143,28 +153,13 @@ public class RecipeController {
         }
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(DEFAULT_ERROR_VIEW);
+        modelAndView.setViewName(ControllerExceptionHandler.DEFAULT_ERROR_VIEW);
         modelAndView.getModelMap().addAttribute("recipe", new RecipeCommand());
         modelAndView.getModelMap().addAttribute("exception", ex);
         return modelAndView;
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleNumberFormatException(HttpServletResponse response, Exception ex) {
 
-        if (log.isErrorEnabled()) {
-            log.error("Error occurred. Text message=" + ex.getMessage());
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(DEFAULT_ERROR_VIEW);
-        modelAndView.getModelMap().addAttribute("recipe", new RecipeCommand());
-        modelAndView.getModelMap().addAttribute("exception", ex);
-
-
-        return modelAndView;
-    }
 
 
 }
