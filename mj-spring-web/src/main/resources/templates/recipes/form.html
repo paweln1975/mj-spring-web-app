@@ -20,7 +20,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12 form-group" th:class="${#fields.hasErrors('description')} ? 'col-md-12 form-group has-error' : 'col-md-12 form-group'">
-                                    <label>Recipe Description:</label>
+                                    <label th:text="#{recipe.description}">Recipe Description:</label>
                                     <textarea rows="3" class="form-control" th:field="*{description}"/>
                                     <span class="help-block" th:if="${#fields.hasErrors('description')}">
                                         <ul>
@@ -31,7 +31,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
-                                    <label>Categories:</label>
+                                    <label th:text="#{recipe.categorySet}">Categories:</label>
                                 </div>
                                 <div class="col-md-11 form-group">
                                     <div class="radio" th:remove="all">
@@ -50,7 +50,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group" th:class="${#fields.hasErrors('prepTime')} ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
-                                    <label>Prep Time:</label>
+                                    <label th:text="#{recipe.prepTime}">Prep Time:</label>
                                     <input type="text" class="form-control" th:field="*{prepTime}"/>
                                     <span class="help-block" th:if="${#fields.hasErrors('prepTime')}">
                                         <ul>
@@ -59,7 +59,7 @@
                                     </span>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>Difficulty:</label>
+                                    <label th:text="#{recipe.difficulty}">Difficulty:</label>
                                     <select class="form-control" th:field="*{difficulty}">
                                         <option th:each="difficultyValue : ${T(pl.paweln.mjspringwebapp.domain.Difficulty).values()}"
                                                 th:value="${difficultyValue.name()}"
@@ -79,7 +79,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-11 ">
-                                    <h1 class="panel-title">Ingredients</h1>
+                                    <h1 class="panel-title" th:text="#{recipe.ingredientSet}">Ingredients</h1>
                                 </div>
                                 <div class="col-md-1">
                                     <a class="btn btn-default" href="#" role="button">Edit</a>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h1 class="panel-title">Directions</h1>
+                            <h1 class="panel-title" th:text="#{recipe.directions}">Directions</h1>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -121,7 +121,7 @@
                     </div>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h1 class="panel-title">Notes</h1>
+                            <h1 class="panel-title" th:text="#{recipe.notesCommand}">Notes</h1>
                         </div>
                         <div class="panel-body">
                             <div class="row">

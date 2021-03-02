@@ -129,7 +129,6 @@ public class RecipeController {
     @PostMapping("/recipe")
     public String saveOrUpdateRecipe(@Valid @ModelAttribute("recipe") RecipeCommand command,
                                      BindingResult bindingResult) {
-        RecipeCommand savedCommand = this.recipeService.saveRecipeCommand(command);
 
         if (bindingResult.hasErrors() && log.isErrorEnabled()) {
             bindingResult.getAllErrors().forEach( objectError -> {
@@ -138,6 +137,9 @@ public class RecipeController {
 
             return RECIPE_FORM_URL;
         }
+
+        RecipeCommand savedCommand = this.recipeService.saveRecipeCommand(command);
+
         if (log.isInfoEnabled()) {
             log.info("Saved recipe: " + savedCommand.getId());
         }

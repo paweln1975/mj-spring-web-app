@@ -17,8 +17,8 @@ import java.util.Set;
 public class RecipeCommand {
     private Long id;
 
-    @NotBlank (message = "Description must not be blank")
-    @Size(min=1, max=255, message = "Allowable size between 1 and 255")
+    @NotBlank
+    @Size(min=1, max=255)
     private String description;
 
     @Min(1)
@@ -26,8 +26,8 @@ public class RecipeCommand {
     @NotNull
     private Integer prepTime;
 
-    @NotBlank (message = "Direction must not be blank")
-    @Size(min=10, max=4000, message = "Allowable size between 1 and 4000")
+    @NotBlank
+    @Size(min=10, max=4000)
     private String directions;
 
     private Set<CategoryCommand> categorySet = new HashSet<>();
