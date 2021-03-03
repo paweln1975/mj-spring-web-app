@@ -137,7 +137,9 @@ public class RecipeControllerTest {
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                     .param("id", "")
                     .param("description", "some string")
-                    .param("directions", "test directions"))
+                    .param("directions", "test directions")
+                    .param("prepTime", "5")
+                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
     }
@@ -147,7 +149,7 @@ public class RecipeControllerTest {
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(2L);
 
-        when(recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
+//        when(recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
 
         mock.perform(MockMvcRequestBuilders.post("/recipe")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
