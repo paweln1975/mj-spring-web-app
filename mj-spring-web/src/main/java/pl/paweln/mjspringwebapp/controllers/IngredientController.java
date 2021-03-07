@@ -116,7 +116,7 @@ public class IngredientController {
         model.addAttribute("uomList", this.uomService.getUnitsOfMeasure());
         model.addAttribute("recipe", new RecipeCommand());
 
-        return "/recipes/ingredients/form";
+        return "recipes/ingredients/form";
     }
 
     @GetMapping("/ingredient/{ingredientId}/delete")

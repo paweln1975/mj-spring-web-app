@@ -37,7 +37,7 @@ public class ImageController {
             log.info("Recipe found: " + recipeCommand);
         }
         model.addAttribute("recipe", recipeCommand);
-        return "/recipes/imageform";
+        return "recipes/imageform";
     }
 
     @PostMapping("/recipe/{recipeId}/uploadimage")

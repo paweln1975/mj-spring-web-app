@@ -50,7 +50,7 @@ public class ImageControllerTest {
         mock.perform(MockMvcRequestBuilders.get("/recipe/1/newimage"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("recipe"))
-                .andExpect(view().name("/recipes/imageform"));
+                .andExpect(view().name("recipes/imageform"));
 
         verify(this.recipeService, times(1)).findRecipeCommandById(anyLong());
 
