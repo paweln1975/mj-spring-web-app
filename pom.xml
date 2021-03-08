@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.paweln</groupId>
 	<artifactId>mj-spring-web-app</artifactId>
@@ -27,12 +28,60 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
 		<start-class>pl.paweln.mjspringwebapp.DemoSpringWebAppApplication</start-class>
+		<docker.image.prefix>paweln</docker.image.prefix>
+		<!--Set to name of project-->
+		<docker.image.name>mjspringwebapp</docker.image.name>
 	</properties>
 
 	<scm>
 		<developerConnection>scm:git:https://github.com/paweln1975/mj-spring-web-app</developerConnection>
 	  <tag>HEAD</tag>
   </scm>
+
+	<profiles>
+		<profile>
+			<id>linux-docker</id>
+			<activation>
+				<os>
+					<family>unix</family>
+					<name>Linux</name>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.fabric8</groupId>
+						<artifactId>docker-maven-plugin</artifactId>
+						<version>0.34.1</version>
+
+						<configuration>
+							<dockerHost>http://127.0.0.1:2375</dockerHost>
+							<!--dockerHost>unix:///var/run/docker.sock</dockerHost-->
+							<verbose>true</verbose>
+							<images>
+								<image>
+									<name>${docker.image.prefix}/${docker.image.name}</name>
+									<build>
+										<dockerFileDir>${project.basedir}/./docker/</dockerFileDir>
+
+										<!--copies artifact to docker build dir in target-->
+										<assembly>
+											<descriptorRef>artifact</descriptorRef>
+										</assembly>
+										<tags>
+											<tag>latest</tag>
+											<tag>${project.version}</tag>
+										</tags>
+									</build>
+								</image>
+							</images>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
 
 	<build>
 		<plugins>
@@ -62,6 +111,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>3.1.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-help-plugin</artifactId>
+				<version>3.2.0</version>
 			</plugin>
 		</plugins>
 	</build>
