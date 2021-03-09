@@ -1,0 +1,55 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>bin</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <!-- Exclude current module from distributive. -->
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <!-- Project files to include to distributive.
+    ${maven.multiModuleProjectDirectory} - path to root project folder. -->
+    <fileSets>
+        <fileSet>
+            <!-- From directory. -->
+            <directory>${maven.multiModuleProjectDirectory}/target/classes/bin</directory>
+            <!-- Directory in distributive. -->
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <!-- ** - include all files of any nesting. -->
+                <include>*.sh</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <fileSet>
+            <directory>${maven.multiModuleProjectDirectory}/target/classes</directory>
+            <outputDirectory>config</outputDirectory>
+            <fileMode>0644</fileMode>
+            <includes>
+                <include>messages/**</include>
+                <include>static/**</include>
+                <include>templates/**</include>
+                <include>*.properties</include>
+            </includes>
+        </fileSet>
+
+
+        <fileSet>
+            <directory>${maven.multiModuleProjectDirectory}/target/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <fileSet>
+            <directory>${maven.multiModuleProjectDirectory}/target</directory>
+            <outputDirectory>boot</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>${project.build.finalName}.jar</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+</assembly>
