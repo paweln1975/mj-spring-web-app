@@ -10,10 +10,36 @@
 
     <!-- Project files to include to distributive.
     ${maven.multiModuleProjectDirectory} - path to root project folder. -->
+
+    <moduleSets>
+        <moduleSet>
+            <useAllReactorProjects>true</useAllReactorProjects>
+            <includes>
+                <include>pl.paweln:mj-spring-data</include>
+                <include>pl.paweln:mj-spring-web</include>
+            </includes>
+            <binaries>
+                <unpack>false</unpack>
+                <outputDirectory>lib</outputDirectory>
+            </binaries>
+        </moduleSet>
+    </moduleSets>
+
+
     <fileSets>
         <fileSet>
+            <directory>${project.basedir}/../mj-spring-web/target</directory>
+            <outputDirectory>boot</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+
+
+        <fileSet>
             <!-- From directory. -->
-            <directory>${maven.multiModuleProjectDirectory}/target/classes/bin</directory>
+            <directory>${project.basedir}/../mj-spring-web/target/classes/bin</directory>
             <!-- Directory in distributive. -->
             <outputDirectory>bin</outputDirectory>
             <includes>
@@ -24,7 +50,7 @@
         </fileSet>
 
         <fileSet>
-            <directory>${maven.multiModuleProjectDirectory}/target/classes</directory>
+            <directory>${project.basedir}/../mj-spring-web/target/classes</directory>
             <outputDirectory>config</outputDirectory>
             <fileMode>0644</fileMode>
             <includes>
@@ -34,22 +60,5 @@
                 <include>*.properties</include>
             </includes>
         </fileSet>
-
-
-        <fileSet>
-            <directory>${maven.multiModuleProjectDirectory}/target/lib</directory>
-            <outputDirectory>lib</outputDirectory>
-            <fileMode>0755</fileMode>
-        </fileSet>
-
-        <fileSet>
-            <directory>${maven.multiModuleProjectDirectory}/target</directory>
-            <outputDirectory>boot</outputDirectory>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>${project.build.finalName}.jar</include>
-            </includes>
-        </fileSet>
-
     </fileSets>
 </assembly>

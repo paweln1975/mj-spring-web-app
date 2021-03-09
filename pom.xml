@@ -83,55 +83,7 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>linux-docker</id>
-			<activation>
-				<os>
-					<family>unix</family>
-					<name>Linux</name>
-				</os>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>io.fabric8</groupId>
-						<artifactId>docker-maven-plugin</artifactId>
-						<version>0.34.1</version>
-						<executions>
-							<execution>
-								<id>build-docker-image</id>
-								<phase>install</phase>
-								<goals>
-									<goal>build</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<!--dockerHost>http://127.0.0.1:2375</dockerHost-->
-							<dockerHost>unix:///var/run/docker.sock</dockerHost>
-							<verbose>true</verbose>
-							<images>
-								<image>
-									<name>${docker.image.prefix}/${docker.image.name}</name>
-									<build>
-										<dockerFileDir>${project.basedir}/./docker/</dockerFileDir>
 
-										<!--copies artifact to docker build dir in target-->
-										<assembly>
-											<descriptorRef>artifact</descriptorRef>
-										</assembly>
-										<tags>
-											<tag>latest</tag>
-											<tag>${project.version}</tag>
-										</tags>
-									</build>
-								</image>
-							</images>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
 
 	</profiles>
 
