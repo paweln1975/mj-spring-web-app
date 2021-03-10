@@ -3,7 +3,7 @@
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
     <id>bin</id>
     <formats>
-        <format>tar.gz</format>
+        <format>dir</format>
     </formats>
     <!-- Exclude current module from distributive. -->
     <includeBaseDirectory>false</includeBaseDirectory>
@@ -11,7 +11,7 @@
     <!-- Project files to include to distributive.
     ${maven.multiModuleProjectDirectory} - path to root project folder. -->
 
-    <moduleSets>
+    <!--moduleSets>
         <moduleSet>
             <useAllReactorProjects>true</useAllReactorProjects>
             <includes>
@@ -23,7 +23,7 @@
                 <outputDirectory>lib</outputDirectory>
             </binaries>
         </moduleSet>
-    </moduleSets>
+    </moduleSets-->
 
 
     <fileSets>

@@ -12,6 +12,12 @@
     <artifactId>mj-spring-tools</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <docker.image.prefix>paweln</docker.image.prefix>
+        <!--Set to name of project-->
+        <docker.image.name>mjspringwebapp</docker.image.name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>pl.paweln</groupId>
@@ -56,15 +62,15 @@
                             <image>
                                 <name>${docker.image.prefix}/${docker.image.name}</name>
                                 <build>
-                                    <dockerFileDir>${project.basedir}/./docker/</dockerFileDir>
+                                    <dockerFile>${project.basedir}/src/main/docker/Dockerfile</dockerFile>
 
                                     <!--copies artifact to docker build dir in target-->
                                     <assembly>
-                                        <descriptorRef>artifact</descriptorRef>
+                                        <!--descriptorRef>artifact</descriptorRef-->
+                                        <descriptor>assembly.xml</descriptor>
                                     </assembly>
                                     <tags>
                                         <tag>latest</tag>
-                                        <tag>${project.version}</tag>
                                     </tags>
                                 </build>
                             </image>
@@ -94,10 +100,10 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>mj-spring-web-app-${project.version}</finalName>
+                            <!--finalName>mj-spring-web-app</finalName-->
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
-                                <descriptor>src/main/resources/assembly.xml</descriptor>
+                                <descriptor>src/main/docker/assembly.xml</descriptor>
                             </descriptors>
                         </configuration>
                     </execution>
