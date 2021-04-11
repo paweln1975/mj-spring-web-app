@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <docker.image.prefix>paweln</docker.image.prefix>
+        <docker.image.prefix>paweln1975</docker.image.prefix>
         <!--Set to name of project-->
         <docker.image.name>mjspringwebapp</docker.image.name>
     </properties>
@@ -51,6 +51,7 @@
                             <phase>install</phase>
                             <goals>
                                 <goal>build</goal>
+                                <!--goal>push</goal-->
                             </goals>
                         </execution>
                     </executions>
@@ -73,6 +74,11 @@
                                         <tag>latest</tag>
                                     </tags>
                                 </build>
+                                <run>
+                                    <ports>
+                                        <port>8080:8080</port>
+                                    </ports>
+                                </run>
                             </image>
                         </images>
                     </configuration>
