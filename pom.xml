@@ -54,6 +54,17 @@
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
 						<version>2.4.1</version>
+						<configuration>
+							<profiles>default</profiles>
+							<mainClass>${start-class}</mainClass>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>repackage</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Profile("dev")
+@Profile({"default", "dev"})
 public class BootStrapRecipes implements ApplicationListener<ContextRefreshedEvent> {
 
     private final RecipeRepository recipeRepository;
