@@ -41,10 +41,13 @@
 
 	<profiles>
 		<profile>
-			<id>default</id>
+			<id>dev</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>

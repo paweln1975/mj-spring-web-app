@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-@Profile("jpa")
+@Profile({"prod"})
 public class AuthorJPAService implements AuthorService {
     private final AuthorRepository authorRepository;
 
