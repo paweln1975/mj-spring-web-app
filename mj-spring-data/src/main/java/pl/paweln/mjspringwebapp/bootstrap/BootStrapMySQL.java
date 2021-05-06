@@ -10,7 +10,7 @@ import pl.paweln.mjspringwebapp.domain.UnitOfMeasure;
 import pl.paweln.mjspringwebapp.repositories.CategoryRepository;
 import pl.paweln.mjspringwebapp.repositories.UnitOfMeasureRepository;
 
-@Profile({"dev", "prod"})
+@Profile({"default", "dev", "prod"})
 @Slf4j
 @Component
 public class BootStrapMySQL implements ApplicationListener<ContextRefreshedEvent> {
@@ -26,13 +26,17 @@ public class BootStrapMySQL implements ApplicationListener<ContextRefreshedEvent
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
-        if (categoryRepository.count() == 0L){
-            log.debug("Loading Categories");
+        if (categoryRepository.count() == 0L) {
+            if (log.isDebugEnabled()) {
+                log.debug("Loading Categories");
+            }
             loadCategories();
         }
 
-        if (unitOfMeasureRepository.count() == 0L){
-            log.debug("Loading UOMs");
+        if (unitOfMeasureRepository.count() == 0L) {
+            if (log.isDebugEnabled()) {
+                log.debug("Loading UOMs");
+            }
             loadUom();
         }
     }
