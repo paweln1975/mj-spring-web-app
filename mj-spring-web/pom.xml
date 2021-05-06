@@ -11,10 +11,29 @@
 
     <properties>
         <java.version>11</java.version>
+        <start-class>pl.paweln.mjspringwebapp.DemoSpringWebAppApplication</start-class>
     </properties>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <profiles>prod</profiles>
+                    <mainClass>${start-class}</mainClass>
+                    <skip>false</skip>
+                    <fork>true</fork>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>

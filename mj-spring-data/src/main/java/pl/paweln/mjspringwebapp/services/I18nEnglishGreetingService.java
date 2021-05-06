@@ -3,7 +3,7 @@ package pl.paweln.mjspringwebapp.services;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-@Profile({"default", "jpa"})
+@Profile({"default", "dev", "prod"})
 @Service("i18nService")
 public class I18nEnglishGreetingService implements GreetingService {
     @Override

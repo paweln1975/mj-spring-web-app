@@ -1,6 +1,7 @@
 package pl.paweln.mjspringwebapp.bootstrap;
 
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import pl.paweln.mjspringwebapp.domain.*;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Profile({"default", "dev"})
 public class BootStrapRecipes implements ApplicationListener<ContextRefreshedEvent> {
 
     private final RecipeRepository recipeRepository;

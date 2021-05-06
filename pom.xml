@@ -9,7 +9,7 @@
 	<name>mj-spring-web-app</name>
 	<description>Simple Demo project for Spring Boot</description>
 
-    <packaging>pom</packaging>
+	<packaging>pom</packaging>
 
     <modules>
         <module>mj-spring-data</module>
@@ -28,7 +28,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
-		<start-class>pl.paweln.mjspringwebapp.DemoSpringWebAppApplication</start-class>
 		<docker.image.prefix>paweln</docker.image.prefix>
 		<!--Set to name of project-->
 		<docker.image.name>mjspringwebapp</docker.image.name>
@@ -45,12 +44,24 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>2.4.1</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>repackage</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>

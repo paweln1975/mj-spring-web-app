@@ -8,7 +8,7 @@ import pl.paweln.mjspringwebapp.services.AuthorService;
 import java.util.Set;
 
 @Service
-@Profile({"default", "map"})
+@Profile({"default", "dev"})
 public class AuthorMapService extends AbstractMapService<Author, Long> implements AuthorService {
     @Override
     public Author findById(Long id) {
